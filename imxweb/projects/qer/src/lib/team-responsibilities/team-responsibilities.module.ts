@@ -24,39 +24,44 @@
  *
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TeamResponsibilitiesComponent } from './team-responsibilities.component';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClassloggerService, DataSourceToolbarModule, DataTableModule, ExtService, HELP_CONTEXTUAL, HelpContextualComponent, HelpContextualModule, MenuItem, MenuService, RouteGuardService } from 'qbm';
-import { ManagerGuardService } from '../guards/manager-guard.service';
-import { isPersonManager } from '../admin/qer-permissions-helper';
-import { TeamResponsibilitiesService } from './team-responsibilities.service';
-import { TranslateModule } from '@ngx-translate/core';
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
-import { TeamResponsibilitySidesheetComponent } from './team-responsibility-sidesheet/team-responsibility-sidesheet.component';
-import { TeamResponsibilityTileComponent } from './team-responsibility-tile/team-responsibility-tile.component'
+import { TranslateModule } from '@ngx-translate/core';
+import {
+  ClassloggerService,
+  DataSourceToolbarModule,
+  DataTableModule,
+  ExtService,
+  HELP_CONTEXTUAL,
+  HelpContextualModule,
+  MenuItem,
+  MenuService,
+  RouteGuardService,
+} from 'qbm';
+import { isPersonManager } from '../admin/qer-permissions-helper';
+import { ManagerGuardService } from '../guards/manager-guard.service';
 import { TilesModule } from '../tiles/tiles.module';
+import { TeamResponsibilitiesComponent } from './team-responsibilities.component';
+import { TeamResponsibilitiesService } from './team-responsibilities.service';
+import { TeamResponsibilitySidesheetComponent } from './team-responsibility-sidesheet/team-responsibility-sidesheet.component';
+import { TeamResponsibilityTileComponent } from './team-responsibility-tile/team-responsibility-tile.component';
 
 const routes: Routes = [
   {
     path: 'teamresponsibilities',
     component: TeamResponsibilitiesComponent,
-    canActivate: [RouteGuardService, ManagerGuardService],
+    canActivate: [ManagerGuardService],
     resolve: [RouteGuardService],
-    data:{
-      contextId: HELP_CONTEXTUAL.TeamResponsibilities
-    }
-  }
+    data: {
+      contextId: HELP_CONTEXTUAL.TeamResponsibilities,
+    },
+  },
 ];
 
-
 @NgModule({
-  declarations: [
-    TeamResponsibilitiesComponent,
-    TeamResponsibilitySidesheetComponent,
-    TeamResponsibilityTileComponent
-  ],
+  declarations: [TeamResponsibilitiesComponent, TeamResponsibilitySidesheetComponent, TeamResponsibilityTileComponent],
   imports: [
     CommonModule,
     EuiCoreModule,
@@ -66,18 +71,12 @@ const routes: Routes = [
     DataTableModule,
     TranslateModule,
     TilesModule,
-    HelpContextualModule
+    HelpContextualModule,
   ],
-  providers:[
-    TeamResponsibilitiesService
-  ]
+  providers: [TeamResponsibilitiesService],
 })
 export class TeamResponsibilitiesModule {
-  constructor(
-    private readonly menuService: MenuService,
-    private readonly extService: ExtService,
-    logger: ClassloggerService
-  ) {
+  constructor(private readonly menuService: MenuService, private readonly extService: ExtService, logger: ClassloggerService) {
     logger.info(this, '▶️ TeamResponsibilitiesModule loaded');
     // this.setupMenu();
     this.extService.register('Dashboard-SmallTiles', { instance:TeamResponsibilityTileComponent});
@@ -104,4 +103,5 @@ export class TeamResponsibilitiesModule {
   //     },
   //   );
   // }
+
 }
