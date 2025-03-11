@@ -106,12 +106,12 @@ export class NewRequestAddToCartService {
             ? '#LDS#No product could be added to your shopping cart.'
             : '#LDS#{0} of {1} products could not be added to your shopping cart.',
         parameters: [this.possibleItems - this.savedItems, this.possibleItems],
-      });
+      },undefined,{duration:0});
     } else {
       this.snackbar.open({
         key: '#LDS#{0} products have been successfully added to your shopping cart.',
         parameters: [this.savedItems],
-      });
+      },undefined,{duration:0});
     }
     await this.userModelService.reloadPendingItems();
 

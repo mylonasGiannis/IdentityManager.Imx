@@ -220,6 +220,9 @@ export class DataSourceToolbarComponent implements OnChanges, OnInit, OnDestroy 
    */
   @Input() public entitySchema: EntitySchema;
 
+  //Checks if should have the filter option
+  @Input() public wantFilter:boolean=true;
+
   /**
    * Contains the DST setting, like the datasource, the entity schema etc.
    *
@@ -1348,11 +1351,12 @@ export class DataSourceToolbarComponent implements OnChanges, OnInit, OnDestroy 
 
   public canShowFilterWizard(): boolean {
     let result =
-      (this.settings?.entitySchema?.TypeName != null &&
+      ((this.settings?.entitySchema?.TypeName != null &&
         this.filterService.isSqlWizardImplemented &&
         !this.isDataSourceLocal &&
         !this.disableFilterWizard) ||
-      this.settings?.filters?.length > 0;
+      this.settings?.filters?.length > 0)&& this.wantFilter;
+    
     return result;
   }
 

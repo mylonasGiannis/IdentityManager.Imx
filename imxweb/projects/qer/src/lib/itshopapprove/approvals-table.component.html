@@ -20,6 +20,7 @@
     [options]="['search', 'sort', 'settings', 'filter']"
     [settings]="dstSettings"
     data-imx-identifier="approvals-table-dst"
+    [wantFilter]="false"
     (search)="onSearch($event)"
     (navigationStateChanged)="getData($event)"
     (updateConfig)="updateConfig($event)"

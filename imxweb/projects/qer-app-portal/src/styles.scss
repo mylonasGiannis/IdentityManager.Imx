@@ -432,6 +432,11 @@ imx-start eui-alert .eui-alert.eui-alert-type--info:not(.eui-alert-colored) {
   background-color: $CCC_Main ;
 }
 
+.mat-checkbox-layout  .mat-checkbox-inner-container{
+  height: 20px;
+  width:20px;
+}
+
 
 
 
