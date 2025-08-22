@@ -28,7 +28,7 @@ import { ColumnDependentReference } from 'qbm';
 
 export interface WorkflowActionParameters {
   maxReasonType?: number;
-  reason: ColumnDependentReference;
+  reason?: ColumnDependentReference;
   justification?: ColumnDependentReference;
   uidPerson?: ColumnDependentReference;
   validFrom?: ColumnDependentReference;

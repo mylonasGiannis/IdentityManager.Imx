@@ -1,6 +1,6 @@
 <div *ngIf="columnContainer?.canEdit; else isReadonly">
   <div class="imx-slider-label-container">
-    <label class="slider-label__main">{{ columnContainer.display | translate }}: {{ control.value }}</label>
+    <label class="slider-label__main">{{ columnContainer.display | translate }}: {{ control.value | formatNumber }}</label>
     <div class="imx-suffix-container" *ngIf="isBusy">
       <mat-spinner diameter="30"></mat-spinner>
     </div>
@@ -21,7 +21,11 @@
     </mat-slider>
     <mat-label class="slider-label__suffix" translate>#LDS#Maximum risk</mat-label>
   </div>
+  <mat-error *ngIf="control.errors?.['generalError']">
+    {{ validationErrorMessage }}
+  </mat-error>
 </div>
+
 <!-- template for read only elements-->
 <ng-template #isReadonly>
   <imx-view-property [columnContainer]="columnContainer" defaultValue="#LDS#Not set"> </imx-view-property>

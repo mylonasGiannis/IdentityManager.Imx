@@ -24,7 +24,7 @@
  *
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BusyService, calculateSidesheetWidth, DataSourceToolbarSettings, HelpContextualValues, SideNavigationComponent } from 'qbm';
 
 import { EuiSidesheetService } from '@elemental-ui/core';
@@ -39,16 +39,18 @@ import { DugOverviewService } from './dug-overview.service';
   styleUrls: ['./dug-overview.component.scss'],
 })
 export class DugOverviewComponent implements OnInit, SideNavigationComponent {
+
+  @Input() public isAdmin = false;
   public data?: any;
   public contextId?: HelpContextualValues;
   private dataModel: DataModel;
-
   public busyService = new BusyService();
   public navigationState: CollectionLoadParameters = {};
   public dstSettings: DataSourceToolbarSettings;
   public entitySchema: EntitySchema;
   private displayedColumns: IClientProperty[] = [];
   public readonly DisplayColumns = DisplayColumns;
+  public activeTabIndex = 0;
 
   constructor(
     private readonly overviewService: DugOverviewService,
@@ -109,7 +111,7 @@ export class DugOverviewComponent implements OnInit, SideNavigationComponent {
 
   private async getData(parameter: CollectionLoadParameters = {}): Promise<void> {
     const isBusy = this.busyService.beginBusy();
-    this.navigationState = { ...parameter, owned: '1' };
+    this.navigationState = this.isAdmin ? { ...parameter, allresources: '1' } : { ...parameter, owned: '1' };
     try {
       const data = await this.overviewService.getData(this.navigationState);
 

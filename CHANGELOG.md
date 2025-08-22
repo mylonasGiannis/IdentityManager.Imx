@@ -1,3 +1,74 @@
+### August 8, 2025
+- 504964 *(502690)*:  Fixes an issue with server-side error messages on request properties that contain a list of permitted values.
+- 504872 *(500296)*: Fixes an issue with showing very long decimal numbers.
+- 504893 *(500816)*: Fixes an issue with the wrong error message when entering an invalid date for an approval
+- 502012: Fixes an issue with date time validation in the shopping cart, which causes an error to be thrown infinitely.
+- 504865 *(502805)*: Fixes a display issue with entitlement loss for a single attestation case, although multiple are selected.
+- 491804: Fixes an issue with custom filtering on UNSContainer, which may display different containers with the same indistinguishable value.
+- 494594: Fixes an issue with custom filtering the request history on reserved requests, which ignores the previously set text filter.
+- 503322 *(501310)*: Fixes an issue where the chief approval team can't delegate requests.
+- 503159 *(503133)*: Fixes an issue with a missing paginator on request history > view entitlements.
+- 503039 *(502448)*: Fixes an issue with the Slovenian format on date controls.
+- 502483: Fixes an issue with the My Direct Reports tile, which allows for identity creation although disabled otherwise.
+
+### July 25, 2025
+- Packages updated to 9.3.1
+- 499192 *(496637)*: Fixes an issue with missing renewal dates on the Pending Attestations page.
+- 497218: Fixes an issue with deep links that freeze the selected company policy of the policy violations page
+- 501688 *(501314)*: Fixes an issue with reloading achieved requests after the identity is changed.
+- 500294 *(497103)*: Fixes an issue with the units displayed on statistics.
+- 500552 *(497578)*: Fixes an issue with the assignment of mitigating controls to a policy violation on the policy violations page.
+- 497425: Fixes an issue with the management of e-mail notification on a user's profile page.
+- 496475 *(489057)*: Fixes an issue with cut-off labels on the x-axis of statistics.
+- 480248: Fixes an issue with resetting the search on the Request page.
+- 496323: Fixes some security issues.
+- 487046 *(486606)*: Fixes an issue with preventing the submission of a request while a validation is ongoing.
+
+### July 11, 2025
+- 496243 *(496242)*: Fixes an issue with the sorting in the history view.
+- 470865: Provides an API documentation for our new data-table.
+- 496590 *(496025)*: Fixes an issue regarding error messages on multi-line component dependent reference editors, whenever a server error occurs.
+- 496475 *(489057)*: Fixes an issue with cut off labels on the x-axis of statistics.
+- 496641: Fixes an issue with the rendering of a account report.
+- 496646: Fixes an issue with correct filters after using deep links to the policy violation approval page.
+- 496654 *(496653)*: Adds support for decimal range report parameters.
+
+### June 13, 2025
+- 495784: Fixes an issue with submitting requests while a validation is ongoing.
+- 481927 *(480466)*: Fixes an 404 error on approve/deny request.
+- 492327 *(484186)*: Fixes an exception when deciding a request as a member of the chief approval team.
+- 493673 *(474749)*: Fixes an issue with wrong sublevels when the same person can approve a request again in the same level.
+- 474724: Fixes an issue with the Cancel reservation button that is shown even though inquiry is not answered yet.
+- 493494: Adds sorting options to rule violations.
+- 488099 *(463113)*: Fixes an issue with the date field unsubscribing an assigned request.
+- 493438 *(491726)*: Fixes an issue with saving a view on the Responsibility -> System Roles page.
+- 490160: Fixes an issue with the culture formatting in the identity history.
+- 488101 *(474430)*: Fixes an issue with zooming in on the parameter section of a selected report.
+- 484625: Fixes an issue with the CAPTCHA based login on the custom-app.
+- 488853: Fixes links in readme files.
+- 491498 *(489984)*: Fixes an issue with the CAPTCHA prompt on the Password Reset Portal (it was not display again after a wrong input)
+
+### May 20, 2025
+- 486313: Fixes an issue with scroll bars in the View Report side sheet.
+- 483185 *(483102)*: Fixes an issue with deep links in the mail body of send inquiries.
+- 468349: Fixes an issue with direct re-assignment of product owner memberships.
+- 488906 *(488905)*: Fixes an issue with a too early closed tag.
+- 459188: Fixes an issue with missing Attestor filters.
+- 487103 *(486602)*: Fixes an issue with editing old-style request property values by an approver.
+- 463958: Fixes an issue with wrong value formatting.
+- 488888 *(485595)*: Fixes an issue with error messages, that were shown with quotes.
+- 486986: Fixes an issue with clearing checkboxes.
+- 481878: Adds more information for the approver to know exactly which violation needs to be exceptionally accepted
+- 489728: Fixes an issue with editing UINT based parameter in the attestation wizard.
+- 486921 *(486644)*: Fixes an issue while loading the  Business Roles > Entitlements > Request Entitlements page.
+- 490279 *(489994)*: Adds sorting, additional columns and export to list report viewer.
+- 487535: Fixes an issue with error handling on the identity history page.
+- 481958: Fixes another issue with duplicated HTTP Requests
+- 490344 *(481171)*: Fixes an issue with the sorting of additional columns.
+- 490276: Fixes an issue with the calculation of risk index analysis for DEC functions.
+- 491848 *(489974)*: Fixes an issue with the editing of request properties that contains at least on read-only property (Github issue).
+- 492128 *(489184)*: Fixes an issue with saving the reason while canceling the reservation (was not displayed anywhere).
+
 ### April 16, 2025
 - Main work item ID added in brackets if it differs from the current one
 - 486926 *(460757)*: Approval parameters are read/written interactively. **Important**: This fix requires the server-side fix 486926 to be installed.

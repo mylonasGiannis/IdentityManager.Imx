@@ -26,6 +26,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { ValType } from '@imx-modules/imx-qbm-dbts';
 import { BaseCdr, BaseReadonlyCdr, BulkItem, BulkItemStatus, BusyService } from 'qbm';
 import { Approval } from '../../approval';
 import { ApprovalsService } from '../../approvals.service';
@@ -121,11 +122,17 @@ export class WorkflowMultiActionComponent implements OnInit {
         bulkItem.properties.push(new BaseCdr(approval.ValidFrom.Column));
       }
       if (
-        (this.data.showValidDate.validUntil && approval.ValidUntil.Column.GetValue() !== '') ||
+        (this.data.showValidDate.validUntil &&
+          approval.ValidUntil.Column.GetValue() !== '' &&
+          approval.OrderState.value !== 'OrderProlongate') ||
         approval.ValidUntil.GetMetadata().CanEdit()
       ) {
         bulkItem.properties.push(new BaseCdr(approval.ValidUntil.Column));
       }
+    }
+
+    if (approval.ValidUntilProlongation?.value && approval.OrderState.value === 'OrderProlongate') {
+      bulkItem.properties.push(new BaseCdr(approval.ValidUntilProlongation.Column));
     }
 
     const step = this.stepService.getCurrentStepCdr(approval, approval.pwoData, '#LDS#Current approval step');
@@ -133,12 +140,20 @@ export class WorkflowMultiActionComponent implements OnInit {
       bulkItem.properties.unshift(step);
     }
 
+    const cRule = this.stepService.getAdditionalInfoCdr(approval, approval.pwoData, '#LDS#Compliance rule');
+    if (cRule != null) {
+      bulkItem.properties.unshift(cRule);
+    }
+
     if (approval.parameterColumns) {
       const entityWrapper = await this.approvalService.getExtendedEntity(approval.key);
       const interactiveColumns = entityWrapper.parameterCategoryColumns.map((item) => item.column);
       interactiveColumns.forEach((pCol) => {
         pCol.ColumnChanged.subscribe(() => {
-          approval.parameterColumns.find((elem) => elem.ColumnName === pCol.ColumnName)?.PutValue(pCol.GetValue());
+          const originalColumn = approval.parameterColumns.find((elem) => elem.ColumnName === pCol.ColumnName);
+          if (originalColumn && originalColumn.GetMetadata().CanEdit()) {
+            originalColumn.PutValue(pCol.GetType() === ValType.Date ? new Date(pCol.GetValue()) : pCol.GetValue());
+          }
         });
         bulkItem.properties.push(this.data.approve ? new BaseCdr(pCol) : new BaseReadonlyCdr(pCol));
       });

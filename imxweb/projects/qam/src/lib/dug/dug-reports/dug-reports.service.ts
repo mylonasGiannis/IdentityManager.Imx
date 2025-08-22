@@ -42,7 +42,7 @@ export class DugReportService {
     const resource = await this.api.client.portal_dge_resources_reports_get(uid);
     return DugReportEntity.buildEntities(
       DugReportEntity.buildEntityData(resource),
-      resource.map((elem) => elem.PresetParameters!).filter((elem) => elem.presetParameters),
+      resource.map((elem) => elem.PresetParameters!),
       DugReportEntity.GetEntitySchema(this.translate),
     );
   }

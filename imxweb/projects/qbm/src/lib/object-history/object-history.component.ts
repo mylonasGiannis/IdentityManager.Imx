@@ -25,7 +25,7 @@
  */
 
 // eslint-disable-next-line max-classes-per-file
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ErrorHandler, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EuiLoadingService, EuiSelectOption } from '@elemental-ui/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -35,7 +35,6 @@ import { HistoryComparisonData } from '@imx-modules/imx-api-qbm';
 import { IStateOverviewItem, ObjectHistoryEvent } from '@imx-modules/imx-qbm-dbts';
 import { ObjectHistoryParameters, ObjectHistoryService } from './object-history.service';
 
-import { DateAdapter } from '@angular/material/core';
 import moment, { Moment } from 'moment-timezone';
 import { Subscription } from 'rxjs';
 import { ExtendedObjectHistoryEvent, TimelineDateTimeFilter } from '../timeline/timeline';
@@ -116,11 +115,10 @@ export class ObjectHistoryComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private busyService: EuiLoadingService,
     private historyService: ObjectHistoryService,
-    private dateAdapter: DateAdapter<any>,
+    private readonly errorHandler: ErrorHandler,
   ) {}
 
   public async ngOnInit(): Promise<void> {
-    this.setLocale(this.translate.currentLang);
     this.setTimeline();
 
     this.addViewMode(this.viewModeGrid, '#LDS#Events');
@@ -133,11 +131,6 @@ export class ObjectHistoryComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-  }
-
-  public setLocale(locale: string): void {
-    moment.locale(locale);
-    this.dateAdapter.setLocale(locale);
   }
 
   public setTimeline(): void {
@@ -208,10 +201,11 @@ export class ObjectHistoryComponent implements OnInit, OnDestroy {
           this.historyComparisonData = await this.historyService.getHistoryComparisonData(table, uid, { CompareDate: date });
         }
       }
-    } catch {
+    } catch (error) {
       this.historyData = [];
       this.stateOverviewItems = [];
       this.historyComparisonData = [];
+      this.errorHandler.handleError(error);
     } finally {
       this.busyService.hide();
     }

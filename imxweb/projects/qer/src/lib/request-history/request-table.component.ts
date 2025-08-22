@@ -182,10 +182,12 @@ export class RequestTableComponent implements OnInit, OnDestroy, OnChanges {
       }),
     );
   }
-
-  ngOnChanges() {
-    if (this.uidRecipient) {
-      this.getData();
+  public async ngOnChanges(): Promise<void> {
+    const busy = this.busyService.beginBusy();
+    try {
+      await this.getData();
+    } finally {
+      busy.endBusy();
     }
   }
 
@@ -221,10 +223,6 @@ export class RequestTableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public updateFiltersFromRouteParams(params: Params): void {
-    if (this.viewConfigService.isDefaultConfigSet()) {
-      // If we have a default config, we won't set our filters
-      return;
-    }
     // Make keys lowercase
     const result = {};
     for (const [key, value] of Object.entries(params)) {

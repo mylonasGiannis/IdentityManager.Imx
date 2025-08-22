@@ -61,27 +61,25 @@ export class DugAccessDetailComponent implements OnInit {
     private readonly dugAccessAnalysisService: DugAccessAnalysisService,
     private readonly systemInfoService: SystemInfoService,
     private readonly translate: TranslateService,
-  ) {}
+  ) {
+  }
 
   public async ngOnInit(): Promise<void> {
+    setTimeout(async () => {
+      await this.loadCharts();
+    }, 100);
+  }
+
+  private async loadCharts(): Promise<void> {
+    if (!this.dug) {
+      this.charts = [];
+      return;
+    }
     this.charts = (
       await Promise.all([
-        this.getChart(
-          'QAM_AccessAnalysis_Department',
-          '#LDS#Access analysis by department',
-          '#LDS#Analysis of access rights, grouped by department, is currently unavailable.',
-        ),
-        this.getChart(
-          'QAM_AccessAnalysis_PrimaryRoleTitle',
-          '#LDS#Access analysis by primary role title',
-          '#LDS#Analysis of access rights, grouped by primary role title, is currently unavailable.',
-          'ORG',
-        ),
-        this.getChart(
-          'QAM_AccessAnalysis_Location',
-          '#LDS#Access analysis by location',
-          '#LDS#Analysis of access rights, grouped by location, is currently unavailable.',
-        ),
+        this.getChart('QAM_AccessAnalysis_Department', '#LDS#Access analysis by department', '#LDS#Data unavailable.'),
+        this.getChart('QAM_AccessAnalysis_PrimaryRoleTitle', '#LDS#Access analysis by primary role title', '#LDS#Data unavailable.', 'ORG'),
+        this.getChart('QAM_AccessAnalysis_Location', '#LDS#Access analysis by location', '#LDS#Data unavailable.'),
       ])
     ).filter((x) => x != null);
   }
@@ -100,6 +98,16 @@ export class DugAccessDetailComponent implements OnInit {
   //#region chart data helper
 
   private buildChartOptions(chartData: ChartDto, noDataText: string): ChartOptions {
+    if (!chartData || !chartData.Data) {
+      return {
+        data: {
+          type: donut(),
+          columns: [],
+          names: {},
+          empty: { label: { text: noDataText } }
+        },
+      };
+    }
     return {
       data: {
         type: donut(),
@@ -146,6 +154,10 @@ export class DugAccessDetailComponent implements OnInit {
       ret[elem.key] = elem.value;
     }
     return ret;
+  }
+
+  ngOnDestroy(): void {
+    this.charts = [];
   }
   //#endregion
 }

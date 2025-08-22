@@ -75,6 +75,7 @@ export class PolicyViolationsComponent implements OnInit {
   private readonly subscriptions: Subscription[] = [];
   private viewConfig: DataSourceToolbarViewConfig;
   private viewConfigPath = 'policies/violations';
+  private uniqueTableConfig = false;
 
   constructor(
     public policyViolationsService: PolicyViolationsService,
@@ -102,13 +103,13 @@ export class PolicyViolationsComponent implements OnInit {
       this.entitySchema?.Columns.State,
       ...(!this.selectedCompanyPolicy
         ? [
-            {
-              ColumnName: 'actions',
-              Type: ValType.String,
-              afterAdditionals: true,
-              untranslatedDisplay: '#LDS#Approval decision',
-            },
-          ]
+          {
+            ColumnName: 'actions',
+            Type: ValType.String,
+            afterAdditionals: true,
+            untranslatedDisplay: '#LDS#Approval decision',
+          },
+        ]
         : []),
     ];
 
@@ -198,6 +199,7 @@ export class PolicyViolationsComponent implements OnInit {
       },
       exportFunction: this.policyViolationsService.exportPolicyViolations(),
       viewConfig: this.viewConfig,
+      uniqueConfig: this.uniqueTableConfig,
       highlightEntity: (identity: PolicyViolation) => {
         this.viewDetails(identity);
       },
@@ -207,11 +209,6 @@ export class PolicyViolationsComponent implements OnInit {
   }
 
   private updateFiltersFromRouteParams(params: Params): void {
-    if (this.viewConfigService.isDefaultConfigSet()) {
-      // If there is a default config, we will not use our defaults
-      return;
-    }
-
     for (const [key, value] of Object.entries(params)) {
       this.tryApplyFilter(key, value);
     }
@@ -225,7 +222,8 @@ export class PolicyViolationsComponent implements OnInit {
       const filter = filterOptions[index];
       if (filter) {
         filter.InitialValue = value;
-        filter.CurrentValue = value;
+        filter.CurrentValue = value;        
+        this.uniqueTableConfig = true;
         this.dataSource.state.update((state) => ({ ...state, [name.toLowerCase()]: value }));
       }
     }

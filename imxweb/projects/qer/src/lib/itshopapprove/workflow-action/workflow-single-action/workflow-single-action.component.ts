@@ -26,7 +26,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormGroup } from '@angular/forms';
-import { IEntity } from '@imx-modules/imx-qbm-dbts';
+import { IEntity, ValType } from '@imx-modules/imx-qbm-dbts';
 import { BaseCdr, BaseReadonlyCdr, BusyService, ColumnDependentReference } from 'qbm';
 import { Approval } from '../../approval';
 import { ApprovalsService } from '../../approvals.service';
@@ -75,6 +75,12 @@ export class WorkflowSingleActionComponent implements OnInit {
 
   /**
    * @ignore since this is only public because of databinding to the template
+   * The reference depending on the compliance violation of the request that is displayed during the decision.
+   */
+  public complianceCdr: ColumnDependentReference | undefined;
+
+  /**
+   * @ignore since this is only public because of databinding to the template
    *
    * The references depending on the parameter of the request that are displayed/edited during the decision.
    *
@@ -119,8 +125,12 @@ export class WorkflowSingleActionComponent implements OnInit {
       this.columns.push(new BaseCdr(this.request.ValidFrom.Column));
     }
 
-    if (this.data.showValidDate?.validUntil) {
+    if (this.data.showValidDate?.validUntil && this.request.OrderState.value !== 'OrderProlongate') {
       this.columns.push(new BaseCdr(this.request.ValidUntil.Column));
+    }
+
+    if(this.request.ValidUntilProlongation?.value && this.request.OrderState.value === 'OrderProlongate') {
+      this.columns.push(new BaseCdr(this.request.ValidUntilProlongation.Column));
     }
 
     if (this.request.parameterColumns) {
@@ -130,7 +140,10 @@ export class WorkflowSingleActionComponent implements OnInit {
         const interactiveColumns = entityWrapper.parameterCategoryColumns.map((item) => item.column);
         interactiveColumns.forEach((pCol) => {
           pCol.ColumnChanged.subscribe(() => {
-            this.request.parameterColumns.find((elem) => elem.ColumnName === pCol.ColumnName)?.PutValue(pCol.GetValue());
+            const originalColumn = this.request.parameterColumns.find((elem) => elem.ColumnName === pCol.ColumnName);
+            if (originalColumn && originalColumn.GetMetadata().CanEdit()) {
+              originalColumn.PutValue(pCol.GetType() === ValType.Date ? new Date(pCol.GetValue()) : pCol.GetValue());
+            }
           });
           this.requestParameterColumns.push(this.data.approve ? new BaseCdr(pCol) : new BaseReadonlyCdr(pCol));
         });
@@ -139,9 +152,8 @@ export class WorkflowSingleActionComponent implements OnInit {
       }
     }
 
-    if (this.request.pwoData) {
-      this.currentStepCdr = this.stepService.getCurrentStepCdr(this.request, this.request.pwoData, '#LDS#Current approval step');
-    }
+    this.currentStepCdr = this.stepService.getCurrentStepCdr(this.request, this.request.pwoData, '#LDS#Current approval step');
+    this.complianceCdr = this.stepService.getAdditionalInfoCdr(this.request, this.request.pwoData, '#LDS#Compliance rule');
   }
 
   /**
