@@ -82,6 +82,7 @@ import { ExtDirective } from './ext/ext.directive';
 import { ExtModule } from './ext/ext.module';
 import { ExtService } from './ext/ext.service';
 import { FilterTileComponent } from './filter-tile/filter-tile.component';
+import { ForgotPasswordDialogComponent } from './forgot-password-dialog/forgot-password-dialog.component';
 import { HelpContextualModule } from './help-contextual/help-contextual.module';
 import { HyperViewModule } from './hyperview/hyperview.module';
 import { IconStackComponent } from './icon-stack/icon-stack.component';
@@ -135,6 +136,7 @@ export function initApp(registry: CdrRegistryService, logger: NGXLogger): () => 
     MessageDialogComponent,
     TranslationEditorComponent,
     ConnectionComponent,
+    ForgotPasswordDialogComponent
   ],
   exports: [
     TwoFactorAuthenticationComponent,

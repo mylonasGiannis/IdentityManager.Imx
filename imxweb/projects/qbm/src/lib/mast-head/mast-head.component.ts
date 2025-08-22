@@ -137,6 +137,7 @@ export class MastHeadComponent implements OnDestroy {
   public logoUrl: string;
   public productName: string;
   public extensions: IExtension[] = [];
+  public mylogo ="assets/images/europol_logo.png";
 
   private readonly subscriptions: Subscription[] = [];
 

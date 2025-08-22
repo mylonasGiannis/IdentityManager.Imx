@@ -40,6 +40,7 @@ import { EuiLoadingService, EuiSplashScreenService, EuiTheme, EuiThemeService } 
 import { Subscription } from 'rxjs';
 
 import { HighContrastModeDetector } from '@angular/cdk/a11y';
+import { MatDialog } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
 import { Globals } from '@imx-modules/imx-qbm-dbts';
 import { ReCaptchaV3Service } from 'ng-recaptcha-2';
@@ -50,6 +51,7 @@ import { ErrorService } from '../base/error.service';
 import { CaptchaService } from '../captcha/captcha.service';
 import { ClassloggerService } from '../classlogger/classlogger.service';
 import { ExtDirective } from '../ext/ext.directive';
+import { ForgotPasswordDialogComponent } from '../forgot-password-dialog/forgot-password-dialog.component';
 import { ISessionState } from '../session/session-state';
 import { SystemInfoService } from '../system-info/system-info.service';
 
@@ -97,6 +99,7 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewChecked {
     private readonly captchaService: CaptchaService,
     private readonly recaptchaV3Service: ReCaptchaV3Service,
     private readonly changeDetection: ChangeDetectorRef,
+    private dialog:MatDialog,
   ) {
     this.title = this.appConfigService.Config.Title;
     this.subscriptions.push(
@@ -384,5 +387,13 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewChecked {
       iterable[index]?.focus();
     }
     this.changeDetection.detectChanges();
+  }
+
+  openForgotPasswordDialog(): void {
+    this.dialog.open(ForgotPasswordDialogComponent, {
+      width: '400px',
+      disableClose: true  ,
+      autoFocus:false
+    });
   }
 }

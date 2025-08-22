@@ -25,7 +25,7 @@
  */
 
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { EuiLoadingService, EuiSidesheetRef } from '@elemental-ui/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -62,6 +62,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
   public readonly profileForm: UntypedFormGroup;
   public busy = false;
   public person: RegisterPerson;
+  public EuropolPolicyValue:boolean = false;
 
   public cdrList: (ColumnDependentReference | undefined)[] = [];
 
@@ -88,6 +89,7 @@ export class NewUserComponent implements OnInit, OnDestroy {
   ) {
     this.captchaSvc.captchaImageUrl = 'register/captchaimage';
     this.profileForm = new UntypedFormGroup({ formArray: formBuilder.array([]) });
+    this.profileForm.addControl('europolPolicy', new FormControl(false));
     this.disposable = errorService.setTarget('sidesheet');
 
     this.subscriptions.push(
@@ -117,6 +119,20 @@ export class NewUserComponent implements OnInit, OnDestroy {
         this.person.GetEntity(),
         data.WritablePropertiesForUnregisteredUsers || [],
       );
+
+      this.profileForm.get('europolPolicy')?.valueChanges.subscribe((value: boolean) => {
+        this.EuropolPolicyValue = value;
+      });
+
+      this.cdrList.forEach(cdr => {
+        if (!cdr) return;
+      
+        const colName = cdr.column.ColumnName;
+      
+        if (colName === 'phone' || colName === 'CCC_AgreeTerms') {
+          cdr.minLength = 1; 
+        }
+      });
     } finally {
       this.busy = false;
       this.cd.detectChanges();

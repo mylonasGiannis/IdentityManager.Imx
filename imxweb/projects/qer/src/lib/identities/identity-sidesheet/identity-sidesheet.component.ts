@@ -67,6 +67,7 @@ export class IdentitySidesheetComponent implements OnInit, OnDestroy {
   public readonly detailsFormGroup = new FormGroup({});
   public cdrList: (ColumnDependentReference | undefined)[] = [];
   public cdrListPersonal: (ColumnDependentReference | undefined)[] = [];
+  public cdrListCustom: (ColumnDependentReference | undefined)[] = [];
   public cdrListOrganizational: (ColumnDependentReference | undefined)[] = [];
   public cdrListLocality: (ColumnDependentReference | undefined)[] = [];
   public valueChanges$: Subscription;
@@ -319,6 +320,9 @@ export class IdentitySidesheetComponent implements OnInit, OnDestroy {
     this.sidesheetRef.close();
   }
 
+  public myCustomCheckboxValue: boolean = false;
+
+
   private async setup(): Promise<void> {
     // Resolve an issue where the mat-tab navigation arrows could appear on first load
     if (this.sidesheetRef?.componentInstance) {
@@ -345,12 +349,30 @@ export class IdentitySidesheetComponent implements OnInit, OnDestroy {
     this.detailsFormGroup.addControl(this.data.selectedIdentity.IsSecurityIncident.Column.ColumnName, this.isSecurityIncidentFormControl);
     this.detailsFormGroup.markAsPristine();
 
-    const personalColumns = this.data.projectConfig.PersonConfig?.VI_Employee_MasterData_Attributes || [];
+    this.detailsFormGroup.addControl('myCustomCheckbox', new FormControl(false));
+
+    this.detailsFormGroup.get('myCustomCheckbox')?.valueChanges.subscribe((value: boolean) => {
+      console.log('Η τιμή του checkbox άλλαξε:', value);
+      // Κάνε εδώ ό,τι θες με την τιμή (π.χ. αποθήκευση σε μεταβλητή)
+      this.myCustomCheckboxValue = value;
+    });
+
+    const excludedColumnNames = ['Gender'];
+    const personalColumns = (this.data.projectConfig.PersonConfig?.VI_Employee_MasterData_Attributes || []).filter(
+      col => !excludedColumnNames.includes(col)
+    ); 
     this.cdrListPersonal = this.cdrFactoryService.buildCdrFromColumnList(
       this.data.selectedIdentity.GetEntity(),
       personalColumns,
       !this.data.canEdit,
     );
+
+    // const personalColumns = this.data.projectConfig.PersonConfig?.VI_Employee_MasterData_Attributes || [];
+    // this.cdrListPersonal = this.cdrFactoryService.buildCdrFromColumnList(
+    //   this.data.selectedIdentity.GetEntity(),
+    //   personalColumns,
+    //   !this.data.canEdit,
+    // );
 
     const organizationalColumns = this.data.projectConfig.PersonConfig?.VI_Employee_MasterData_OrganizationalAttributes || [];
     this.cdrListOrganizational = this.cdrFactoryService.buildCdrFromColumnList(
@@ -365,6 +387,25 @@ export class IdentitySidesheetComponent implements OnInit, OnDestroy {
       localityColumns,
       !this.data.canEdit,
     );
+
+    //here
+    const customFields = ['FirstName', 'Gender', 'IsSecurityIncident'];
+
+    this.cdrListCustom = this.cdrFactoryService.buildCdrFromColumnList(
+      this.data.selectedIdentity.GetEntity(),
+      customFields,
+      !this.data.canEdit
+    );
+    this.cdrListCustom.forEach(cdr=>{
+      if(!cdr) return;
+       const colName=cdr.column.ColumnName;
+
+       if(colName ==='IsSecurityIncident'){
+        cdr.minLength=1;
+        console.log(cdr.column.GetMetadata().GetMinLength()); 
+       }
+    });
+    console.log(this.cdrListCustom);
 
     this.busyService.show();
     try {

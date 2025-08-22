@@ -8,6 +8,14 @@
           [cdr]="cdr"
           (controlCreated)="profileForm.addControl(cdr?.column?.ColumnName || '', $event)"
         ></imx-cdr-editor>
+        <div class="europol-policy">
+          <mat-slide-toggle [(ngModel)]="EuropolPolicyValue">
+            Enable something
+          </mat-slide-toggle>
+          <mat-error class="myerror" *ngIf="!EuropolPolicyValue">
+            This field is mandatory.
+          </mat-error>
+        </div>
       </form>
       <imx-captcha [showAllButtons]="false"></imx-captcha>
       <!-- error messages should appear here, and not on the main login component, where they would be hidden by the sidesheet-->

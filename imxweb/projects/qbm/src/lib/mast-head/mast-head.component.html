@@ -1,11 +1,11 @@
-<eui-masthead [ngClass]="{ 'no-logo': logoUrl }" data-imx-identifier="masthead" (logoClicked)="goHome()">
+<!-- <eui-masthead [ngClass]="{ 'no-logo': logoUrl }" data-imx-identifier="masthead" (logoClicked)="goHome()"> -->
+<eui-masthead [ngClass]="{ 'no-logo': mylogo }" data-imx-identifier="masthead" (logoClicked)="goHome()">
   <mat-toolbar color="primary" data-imx-identifier="masthead-toolbar">
     <mat-toolbar-row>
       <!-- custom logo-->
       <img
         class="custom-logo"
-        *ngIf="logoUrl"
-        [src]="logoUrl"
+        src="assets/images/europol_logo.png"
         data-imx-identifier="masthead-custom-logo"
         tabindex="0"
         (keydown.enter)="goHome()"
@@ -13,7 +13,7 @@
         alt=""
       />
 
-      <h1
+      <!-- <h1
         class="imx-masthead-app-name"
         data-imx-identifier="masthead-button-goHome"
         tabindex="0"
@@ -22,7 +22,7 @@
         (click)="goHome()"
       >
         {{ productName }} {{ appConfig?.Config?.Title }}
-      </h1>
+      </h1> -->
       <span class="imx-masthead-space"></span>
       <span class="imx-masthead--controls">
         <ng-template *ngIf="isAuthenticated && !isMobile" [ngTemplateOutlet]="mastHeadMenu"></ng-template>

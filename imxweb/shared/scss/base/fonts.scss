@@ -4,3 +4,68 @@
   font-weight: normal;
   font-style: normal;
 }
+//custom Roboto Condensed
+@font-face {
+  font-family: 'Roboto Condensed';
+  src: url('../../assets/fonts/roboto-condensed-v30-latin-100.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto Condensed - Regular (400) */
+@font-face {
+  font-family: 'Roboto Condensed';
+  src: url('../../assets/fonts/roboto-condensed-v30-latin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+//custom Roboto
+/* Roboto - Light (300) */
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/roboto-v48-latin-300.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto - Regular (400) */
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/roboto-v48-latin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto - Medium (500) */
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/roboto-v48-latin-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto - SemiBold (600) */
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/roboto-v48-latin-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Roboto - Bold (700) */
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/roboto-v48-latin-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+

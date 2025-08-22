@@ -33,7 +33,11 @@ import { EuiSplashScreenConfig, EuiSplashScreenOptions, EuiSplashScreenService }
 export class SplashService {
   private defaultOptions: EuiSplashScreenConfig = {
     applicationName: 'One Identity Manager',
-    icon: 'oi-horizontal',
+    customLogo: {
+      url: 'assets/images/europol_logo.png',   
+      height: '56px',
+      altText: 'Company Logo',
+    },
     showSpinner: true,
     message: 'Loading...',
   };

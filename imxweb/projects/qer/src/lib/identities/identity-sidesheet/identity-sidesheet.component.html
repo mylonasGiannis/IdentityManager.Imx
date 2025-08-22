@@ -123,6 +123,26 @@
                 >
                 </imx-cdr-editor>
               </mat-expansion-panel>
+              <mat-expansion-panel *ngIf="!!cdrListCustom.length">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ '#LDS#Custom' | translate }}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <imx-cdr-editor
+                  *ngFor="let cdr of cdrListCustom"
+                  [cdr]="cdr"
+                  (readOnlyChanged)="update(cdr, cdrListCustom)"
+                  (controlCreated)="detailsFormGroup.addControl(cdr?.column?.ColumnName ?? '', $event)"
+                >
+                </imx-cdr-editor>
+                <mat-slide-toggle formControlName="myCustomCheckbox">
+                  Enable something
+                </mat-slide-toggle>
+                <mat-error class="myerror" *ngIf="!myCustomCheckboxValue">
+                  This field is mandatory.
+                </mat-error>
+              </mat-expansion-panel>
               <mat-expansion-panel *ngIf="!!cdrListLocality.length">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
@@ -240,7 +260,7 @@
     color="primary"
     (click)="save()"
     data-imx-identifier="identity-sidesheet-button-save"
-    [disabled]="detailsFormGroup?.pristine || detailsFormGroup?.invalid"
+    [disabled]="detailsFormGroup?.pristine || detailsFormGroup?.invalid || !myCustomCheckboxValue"
   >
     <span translate>#LDS#Save</span>
   </button>

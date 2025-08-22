@@ -2,6 +2,7 @@
 
 @import '@elemental-ui/core/src/styles/core.scss';
 @import 'components/toolbar';
+@import 'base/variables';
 
 .eui-dark-theme {
   .page {
@@ -24,3 +25,8 @@
     background-color: $color-gray-100;
   }
 }
+
+
+
+//custom changes
+

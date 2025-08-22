@@ -30,7 +30,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router, Routes } from '@angular/router';
 import { EuiCoreModule } from '@elemental-ui/core';
 import { TranslateModule } from '@ngx-translate/core';
@@ -39,11 +41,11 @@ import {
   AuthenticationService,
   CaptchaModule,
   CdrModule,
+  ClassloggerService,
   CustomAuthFlow,
   MastHeadModule,
   ParameterizedTextModule,
   UserMessageModule,
-  ClassloggerService,
 } from 'qbm';
 import { ApiService } from '../api.service';
 import { ConfirmDialogComponent } from './confirm-dialog.component';
@@ -74,6 +76,8 @@ const routes: Routes = [
     UserMessageModule,
     TranslateModule,
     EuiCoreModule,
+    MatFormFieldModule,
+    MatSlideToggleModule
   ],
   declarations: [OpenSidesheetComponent, NewUserComponent, UserActivationComponent, ConfirmDialogComponent],
 })

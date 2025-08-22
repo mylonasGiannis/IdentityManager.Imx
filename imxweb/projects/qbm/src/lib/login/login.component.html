@@ -1,18 +1,18 @@
 <div class="imx-loginPage">
   <div class="imx-loginFormcontainer">
-    <div *ngIf="!logoUrl">
+    <!-- <div *ngIf="!logoUrl">
       <eui-logo [size]="72"></eui-logo>
+    </div> -->
+    <div>
+      <img class="custom-logo" src="assets/images/europol_logo.png" [alt]="" />
     </div>
-    <div *ngIf="logoUrl">
-      <img class="custom-logo" [src]="logoUrl" [alt]="" />
-    </div>
-    <h1 data-imx-identifier="product-name-title">
+    <!-- <h1 data-imx-identifier="product-name-title">
       {{ product.name }}
       <br />
       <ng-container *ngIf="!appConfigService.Config.DoNotShowAppNameWithProduct">
         {{ title }}
       </ng-container>
-    </h1>
+    </h1> -->
     <imx-usermessage class="usermessage" panelClass="imx-small-message" [target]="'login'"></imx-usermessage>
     <div *ngIf="sessionState?.isOAuth; else loginMask" class="imx-loginButtonpanel">
       <button data-imx-identifier="logout-oauth-button" mat-button type="button" class="imx-button" (click)="logoutOAuth()">
@@ -55,7 +55,7 @@
         {{ '#LDS#Log in' | translate }}
       </button>
       <button
-        *ngIf="showCreateAccountButton"
+      *ngIf="showCreateAccountButton"
         data-imx-identifier="signup-button-submit"
         mat-flat-button
         type="button"
@@ -64,6 +64,10 @@
       >
         {{ '#LDS#Create new account' | translate }}
       </button>
+    </div>
+    <!-- passwordreset attempt -->
+    <div>
+      <button class="forgot-password-button" mat-button (click)="openForgotPasswordDialog()">Forgot password?</button>
     </div>
 
     <ng-template #loginMask>
@@ -151,4 +155,4 @@
     </ng-template>
   </div>
 </div>
-<div class="imx-loginFooter">{{ product.name }} <br />{{ product.copyright }}</div>
+<!-- <div class="imx-loginFooter">{{ product.name }} <br />{{ product.copyright }}</div> -->

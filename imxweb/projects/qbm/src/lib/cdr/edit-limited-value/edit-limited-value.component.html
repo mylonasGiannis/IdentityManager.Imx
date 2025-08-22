@@ -6,8 +6,10 @@
   <mat-label>
     {{ columnContainer.display | translate }}
   </mat-label>
+
+  <!-- edited [formControl]="control" -->
   <mat-select
-    [formControl]="control"
+    [formControl]=""
     [attr.data-imx-identifier]="'cdr-edit-limited-value-select-' + columnContainer?.name"
     [required]="columnContainer.isValueRequired"
   >
